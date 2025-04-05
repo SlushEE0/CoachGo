@@ -36,14 +36,16 @@ export default function Landing() {
             The ultimate hub for connecting with certified baseball coaches.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-6 animate-fade-in delay-300">
-            <Link href="/coaches">
-              <button className="outline-2 outline-primary bg-transparent hover:outline-2 hover:bg-secondary text-white px-10 py-4 rounded-full font-semibold shadow-lg transition-all duration-300">
+          <div className="flex flex-col sm:flex-row gap-6 animate-fade-in delay-300 w-full max-w-lg">
+            <Link href="/coaches" className="grow-1">
+              <button className="w-full outline-2 outline-primary bg-transparent hover:outline-2 hover:bg-secondary text-white px-10 py-4 rounded-full font-semibold shadow-lg transition-all duration-300">
                 Find Coaches
               </button>
             </Link>
-            <a href="#scroll_learn-more">
-              <button className="outline-2 outline-foreground bg-transparent hover:outline-2 hover:bg-secondary text-white px-10 py-4 rounded-full font-semibold shadow-lg transition-all duration-300">
+            <a
+              href="#scroll_learn-more"
+              className="grow-1">
+              <button className="w-full outline-2 outline-foreground bg-transparent hover:outline-2 hover:bg-secondary text-white px-10 py-4 rounded-full font-semibold shadow-lg transition-all duration-300">
                 Learn More
               </button>
             </a>
