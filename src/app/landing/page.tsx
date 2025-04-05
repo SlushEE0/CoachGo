@@ -1,3 +1,6 @@
+// "use client";
+
+import { Button } from "@/components/shadcn/button";
 import {
   CheckCircle,
   Star,
@@ -25,34 +28,30 @@ export default function Landing() {
           />
 
           <h1 className="text-5xl md:text-6xl font-extrabold mb-6 text-center leading-tight animate-slide-up">
-            Find Your Perfect{" "}
-            <span className="text-gradient-mask text-landing-gradient">
-              Coach
-            </span>
+            Find Your{" "}
+            <span className="landing-text-gradient">Perfect Coach</span>
           </h1>
 
           <p className="text-lg md:text-xl text-center text-muted-foreground max-w-3xl mb-12 animate-fade-in delay-200">
-            Your ultimate hub for connecting with certified baseball coaches in
-            hitting, pitching, fielding, strength training, and physical
-            therapy.
+            The ultimate hub for connecting with certified baseball coaches.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 animate-fade-in delay-300">
             <Link href="/coaches">
-              <button className="bg-primary hover:bg-primary/90 text-white px-10 py-4 rounded-full font-semibold shadow-lg transition duration-300">
+              <button className="outline-2 outline-primary bg-transparent hover:outline-2 hover:bg-secondary text-white px-10 py-4 rounded-full font-semibold shadow-lg transition-all duration-300">
                 Find Coaches
               </button>
             </Link>
-            <Link href="/about">
-              <button className="border border-foreground hover:bg-foreground hover:text-background text-foreground px-10 py-4 rounded-full font-semibold transition duration-300">
+            <a href="#scroll_learn-more">
+              <button className="outline-2 outline-foreground bg-transparent hover:outline-2 hover:bg-secondary text-white px-10 py-4 rounded-full font-semibold shadow-lg transition-all duration-300">
                 Learn More
               </button>
-            </Link>
+            </a>
           </div>
         </div>
       </section>
 
-      <section className="py-24 bg-background">
+      <section id="scroll_learn-more" className="py-24 bg-background">
         <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-4xl font-bold text-center mb-16">
             How CoachGo Works
@@ -96,10 +95,8 @@ export default function Landing() {
 
       <section className="py-24 bg-sidebar relative">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-4xl font-bold text-center mb-6">
-            <span className="text-gradient-mask text-landing-gradient">
-              Specialized Coaching
-            </span>
+          <h2 className="text-4xl font-bold text-center mb-6 text-primary">
+            Specialized Coaching
           </h2>
           <p className="text-lg text-center text-sidebar-foreground mb-16 max-w-3xl mx-auto">
             Our certified coaches specialize in various aspects of baseball
@@ -187,7 +184,7 @@ export default function Landing() {
               </div>
 
               <Link href="/coaches">
-                <button className="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-full font-semibold shadow-md mt-10 transition">
+                <button className="outline-2 outline-primary bg-transparent hover:outline-2 hover:bg-secondary text-white px-10 py-4 mt-10 rounded-full font-semibold shadow-lg transition-all duration-300">
                   Browse All Coaches
                 </button>
               </Link>
@@ -235,30 +232,23 @@ export default function Landing() {
         </div>
       </section>
 
-      <section className="py-24 bg-primary text-primary-foreground">
+      <section className="py-24">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-4xl font-bold mb-6">
+          <h2 className="text-4xl font-bold pb-6 text-primary">
             Ready to Level Up Your Game?
           </h2>
-          <p className="text-xl mb-10 opacity-90">
-            Join thousands of athletes who have improved their skills with
-            CoachGo
-          </p>
           <Link href="/signup">
-            <button className="bg-white text-primary hover:bg-opacity-90 px-10 py-4 rounded-full font-semibold shadow-lg transition duration-300">
+            <button className="outline-2 outline-primary bg-transparent hover:outline-2 hover:bg-secondary text-white px-10 py-4 rounded-full font-semibold shadow-lg transition-all duration-300">
               Get Started Now
             </button>
           </Link>
         </div>
       </section>
 
-      <footer className="bg-sidebar py-16">
+      <footer className="py-16">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex justify-center mb-8">
-            <img src="/logo.png" alt="CoachGo Logo" className="h-12" />
-          </div>
           <div className="text-center text-muted-foreground">
-            <p>© {new Date().getFullYear()} CoachGo. All rights reserved.</p>
+            <p className="text-red-500">{"<misc links ... copyright info?>"}</p>
           </div>
         </div>
       </footer>
