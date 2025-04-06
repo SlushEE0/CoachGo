@@ -1,6 +1,3 @@
-// "use client";
-
-import { Button } from "@/components/shadcn/button";
 import {
   CheckCircle,
   Star,
@@ -42,9 +39,7 @@ export default function Landing() {
                 Find Coaches
               </button>
             </Link>
-            <a
-              href="#scroll_learn-more"
-              className="grow-1">
+            <a href="#scroll_learn-more" className="grow-1">
               <button className="w-full outline-2 outline-foreground bg-transparent hover:outline-2 hover:bg-secondary text-white px-10 py-4 rounded-full font-semibold shadow-lg transition-all duration-300">
                 Learn More
               </button>
@@ -211,9 +206,9 @@ export default function Landing() {
 
           <div className="grid md:grid-cols-3 gap-12">
             {[
-              { name: "Alex Johnson", role: "Founder & CEO" },
-              { name: "Maria Rodriguez", role: "Lead Developer" },
-              { name: "David Chen", role: "Head of Coach Relations" }
+              { name: "Super Sigma Boy", role: "role 2" },
+              { name: "Yuvraj Jindal", role: "Founder & CEO" },
+              { name: "hiiiii", role: "role 3" }
             ].map((person, index) => (
               <div
                 key={index}
@@ -223,10 +218,10 @@ export default function Landing() {
                 </div>
                 <h3 className="text-xl font-bold mb-2">{person.name}</h3>
                 <p className="text-primary font-medium mb-4">{person.role}</p>
-                <p className="text-muted-foreground">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
-                  facilisi. Sed euismod, nisl vel ultricies lacinia, nisl nisl
-                  aliquam nisl.
+                <p className="text-muted-foreground wrap-break-word text-left">
+                  I have a really important message to share with you. I am a
+                  super sigma boy, I just wanted to tell you guys that and
+                  explain my journey to making this company.
                 </p>
               </div>
             ))}

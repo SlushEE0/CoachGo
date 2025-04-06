@@ -1,152 +1,106 @@
 "use client";
 
-import * as React from "react";
+import { useEffect } from "react";
+import Link from "next/link";
+import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+
+import { Avatar, AvatarFallback, AvatarImage } from "./shadcn/avatar";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuItem,
   SidebarMenuButton,
-  SidebarProvider,
+  SidebarMenuItem,
   SidebarTrigger,
-  SidebarInset
+  useSidebar
 } from "@/components/shadcn/sidebar";
+import { FONTS } from "@/lib/fonts";
 
-import {
-  LayoutDashboard,
-  Users,
-  Info,
-  HelpCircle,
-  LogIn,
-  UserPlus
-} from "lucide-react";
+// Menu items.
+const items = [
+  {
+    title: "Home",
+    url: "#",
+    icon: Home
+  },
+  {
+    title: "Inbox",
+    url: "#",
+    icon: Inbox
+  },
+  {
+    title: "Calendar",
+    url: "#",
+    icon: Calendar
+  },
+  {
+    title: "Search",
+    url: "#",
+    icon: Search
+  },
+  {
+    title: "Settings",
+    url: "#",
+    icon: Settings
+  }
+];
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage
-} from "@/components/shadcn/avatar";
-import { Button } from "@/components/shadcn/button";
-import Link from "next/link";
+export default function AppSidebar() {
+  const { state, setOpen } = useSidebar();
 
-// Function to get user data
-function getUserData() {
-  // Mock function - replace with actual authentication implementation
-  return {
-    data: {
-      displayName: "John Doe",
-      photoURL: "https://ss.com",
-      email: "johndoe@gmail.com"
-    },
-    error: false
-  };
-
-  // Example of authenticated user data:
-  // return {
-  //   data: {
-  //     displayName: "John Doe",
-  //     photoURL: "https://github.com/shadcn.png"
-  //   },
-  //   error: false
-  // }
-}
-
-export default function Navbar() {
-  const { data, error } = getUserData();
+  useEffect(() => setOpen(false), []);
 
   return (
-    <SidebarProvider>
-      <div className="flex h-screen">
-        <Sidebar collapsible="icon">
-          <SidebarHeader>
-            <div className="flex items-center gap-2 px-2">
-              <span className="font-semibold text-lg">C</span>
-            </div>
-          </SidebarHeader>
-
-          <SidebarContent>
+    <Sidebar
+      collapsible="icon"
+      variant="floating"
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem>
-                <Link href="/dashboard" passHref legacyBehavior>
-                  <SidebarMenuButton tooltip="Dashboard">
-                    <LayoutDashboard />
-                    <span>Dashboard</span>
+              {items.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <a href={item.url}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </a>
                   </SidebarMenuButton>
-                </Link>
-              </SidebarMenuItem>
-
-              <SidebarMenuItem>
-                <Link href="/coaches" passHref legacyBehavior>
-                  <SidebarMenuButton tooltip="Coaches">
-                    <Users />
-                    <span>Coaches</span>
-                  </SidebarMenuButton>
-                </Link>
-              </SidebarMenuItem>
-
-              <SidebarMenuItem>
-                <Link href="/about" passHref legacyBehavior>
-                  <SidebarMenuButton tooltip="About">
-                    <Info />
-                    <span>About</span>
-                  </SidebarMenuButton>
-                </Link>
-              </SidebarMenuItem>
-
-              <SidebarMenuItem>
-                <Link href="/support" passHref legacyBehavior>
-                  <SidebarMenuButton tooltip="Support">
-                    <HelpCircle />
-                    <span>Support</span>
-                  </SidebarMenuButton>
-                </Link>
-              </SidebarMenuItem>
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
-          </SidebarContent>
-
-          <SidebarFooter>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                {error ? (
-                  <div className="w-full flex flex-col items-center justify-between gap-2">
-                    <Button className="w-full" variant={"outline"}>
-                      Log In
-                    </Button>
-                    <Button className="w-full" variant={"outline"}>
-                      Sign Up
-                    </Button>
-                  </div>
-                ) : (
-                  <Button variant={"outline"} className="w-full h-max p-4 flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                    <Avatar className="h-8 w-8 rounded-lg">
-                      <AvatarImage src={data.photoURL} alt={data.displayName} />
-                      <AvatarFallback className="rounded-lg">
-                        {data.displayName.charAt(0)}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-semibold">
-                        {data.displayName}
-                      </span>
-                      <span className="truncate text-xs">{data.email}</span>
-                    </div>
-                  </Button>
-                )}
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarFooter>
-        </Sidebar>
-
-        <SidebarInset>
-          {/* Your page content goes here */}
-          <div className="p-4">
-            <SidebarTrigger className="mb-4" />
-            {/* Page content */}
-          </div>
-        </SidebarInset>
-      </div>
-    </SidebarProvider>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+      <SidebarFooter>
+        <SidebarMenuItem>
+          <SidebarMenuButton asChild size="lg">
+            <Link href="/profile" className={FONTS.geistMono}>
+              <Avatar className="h-8 w-8 rounded-lg">
+                <AvatarImage
+                  src={
+                    "https://cdn.shopify.com/s/files/1/0163/6622/files/Do_you_need_a_perfect_location_for_amazing_photos.jpg?v=1682103069"
+                  }
+                  alt={" sigma"}
+                />
+                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+              </Avatar>
+              <div className="grid flex-1 text-left text-sm leading-tight">
+                <span className="truncate font-semibold">{"sigma"}</span>
+                <span className="truncate text-xs">{"sigma"}</span>
+              </div>
+            </Link>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarFooter>
+    </Sidebar>
   );
 }

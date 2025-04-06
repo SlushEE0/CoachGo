@@ -15,3 +15,9 @@ export const openSans = Open_Sans({
   subsets: ["latin"],
   variable: "--font-sans"
 });
+
+export const FONTS = {
+  openSans: openSans.className,
+  geistMono: geistMono.className,
+  geistSans: geistSans.className
+};

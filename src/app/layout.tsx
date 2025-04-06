@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 
-import { openSans } from "@/lib/fonts";
+import { SidebarProvider } from "@/components/shadcn/sidebar";
+import Navbar from "@/components/Navbar";
 
+import { openSans } from "@/lib/fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -16,7 +18,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${openSans.className} antialiased dark`}>{children}</body>
+      <body className={"dark"}>
+        <SidebarProvider>
+          <main className="w-full ${openSans.className} antialiased">
+            <Navbar />
+            {children}
+          </main>
+        </SidebarProvider>
+      </body>
     </html>
   );
 }
