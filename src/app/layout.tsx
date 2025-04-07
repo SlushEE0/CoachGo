@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { SidebarProvider } from "@/components/shadcn/sidebar";
 import Navbar from "@/components/Navbar";
+import { Toaster } from "@/components/shadcn/sonner";
 
 import { openSans } from "@/lib/fonts";
 import "./globals.css";
@@ -24,6 +25,7 @@ export default function RootLayout({
             <Navbar />
             {children}
           </main>
+          <Toaster/>
         </SidebarProvider>
       </body>
     </html>

@@ -57,7 +57,7 @@ export default function AppSidebar() {
 
   return (
     <Sidebar
-      collapsible="icon"
+      collapsible="offcanvas"
       variant="floating"
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}>
