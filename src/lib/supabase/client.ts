@@ -1,10 +1,8 @@
 import { createBrowserClient } from "@supabase/ssr";
 
-import SECRETS from "../env/vars";
-
-export function browserClient() {
+export function getBrowserClient() {
   return createBrowserClient(
-    SECRETS.PUB_SUPABASE_URL,
-    SECRETS.PUB_SUPABASE_ANON_KEY
+    process.env.PUB_SUPABASE_URL!,
+    process.env.PUB_SUPABASE_ANON_KEY!
   );
 }

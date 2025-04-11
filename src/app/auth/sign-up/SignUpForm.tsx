@@ -1,53 +1,102 @@
 "use client";
 
-import { FormEvent, MouseEvent, useRef } from "react";
-import { toast } from "sonner";
+import { FormEvent, useEffect, useRef, useState } from "react";
+import { type AuthResponse } from "@supabase/supabase-js";
 
+import { toast } from "sonner";
+import { Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/shadcn/button";
 import { Input } from "@/components/shadcn/input";
 import { Label } from "@/components/shadcn/label";
 
-type props = {
-  createUser: (email: string, password: string) => Promise<void>;
+type Props = {
+  createUser: (email: string, pass: string) => Promise<AuthResponse>;
 };
 
-export default function SignUpForm({ createUser }: props) {
-  const validateForm = function (e: FormEvent<HTMLFormElement>) {
-    const emailInput =
-      e.currentTarget.querySelector<HTMLInputElement>("#email");
-    const passwordInput =
-      e.currentTarget.querySelector<HTMLInputElement>("#password");
+export default function SignUpForm({ createUser }: Props) {
+  const [isDisabled, SETisDisabled] = useState(true);
+  const [isPasswordVisible, SETisPasswordVisible] = useState(false);
 
-    const email = emailInput?.value!;
-    const pass = emailInput?.value!;
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passRef = useRef<HTMLInputElement>(null);
 
-    console.log("FORM SUBMITTED", email, pass);
+  const getFormInputs = function (formData?: FormData) {
+    let email = "";
+    let pass = "";
 
+    email = formData
+      ? formData.get("email")?.toString()!
+      : emailRef.current?.value!;
+    pass = formData
+      ? formData.get("password")?.toString()!
+      : passRef.current?.value!;
+
+    email = email.trim().toLowerCase();
+    pass = pass.trim();
+
+    return { email, pass };
+  };
+
+  const formValidate = function (email: string, pass: string, notify = true) {
     let valid = true;
-    if (!email) {
-      toast.error("Please enter an email address");
-      return;
+
+    if (!email || (!email.includes("@") && !email.includes("."))) {
+      notify
+        ? toast.error("Please enter an email address", {
+            style: {
+              background: "var(--destructive)"
+            }
+          })
+        : null;
+
+      valid = false;
     }
-    if (!pass) {
-      toast("Please enter an password");
-      return;
+
+    if (!pass || pass.length < 8) {
+      notify
+        ? toast.error("Password must be 8 characters long", {
+            style: {
+              background: "var(--destructive)"
+            }
+          })
+        : null;
+
+      valid = false;
     }
-    if (!email.includes("@") && !email.includes(".")) {
-      toast("Please enter a valid email address");
-      return;
-    }
-    if (pass.length < 8) {
-      toast("Password must be at least 8 characters long");
-      return;
+
+    SETisDisabled(!valid);
+    console.log("[formValidate]", { email, pass, valid }, notify);
+    return valid;
+  };
+
+  const formChange = function () {
+    const { email, pass } = getFormInputs();
+
+    formValidate(email, pass, false);
+  };
+
+  const formSumbit = async function (e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    const { email, pass } = getFormInputs();
+
+    if (!formValidate(email, pass)) return;
+
+    const { data, error } = await createUser(email, pass);
+
+    if (!error) {
+      console.log("[formAction] create user", { email, pass });
+
+      toast.success("User created successfully");
     }
   };
 
-  const onFormSubmit = function (formData: FormData) {
-    // toast("SUUUUPER NURDS");
-  };
+  useEffect(() => {
+    formChange();
+  }, []);
 
   return (
-    <form action={onFormSubmit} onSubmit={validateForm}>
+    <form onSubmit={formSumbit} onChange={formChange}>
       <div className="grid gap-6">
         <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
           <span className="relative z-10 px-2 bg-card text-muted-foreground">
@@ -57,15 +106,34 @@ export default function SignUpForm({ createUser }: props) {
         <div className="grid gap-6">
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" type="text" placeholder="m@example.com" />
+            <Input
+              id="email"
+              type="text"
+              placeholder="m@example.com"
+              ref={emailRef}
+            />
           </div>
           <div className="grid gap-2">
             <Label htmlFor="password">Password</Label>
-            <Input id="password" type="password" />
+            <div className="flex items-center justify-between gap-2">
+              <Input
+                id="password"
+                type={isPasswordVisible ? "text" : "password"}
+                ref={passRef}
+              />
+              <Button
+                variant={"outline"}
+                className="aspect-square"
+                onClick={() => SETisPasswordVisible(!isPasswordVisible)}
+                type="button">
+                {isPasswordVisible ? <EyeOff /> : <Eye />}
+              </Button>
+            </div>
           </div>
           <Button
             type="submit"
-            className="w-full text-foreground border-primary">
+            className="w-full text-foreground border-primary bg-primary data-[disabled=true]:bg-primary/50 "
+            data-disabled={isDisabled}>
             Sign Up
           </Button>
         </div>

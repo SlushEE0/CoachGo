@@ -1,3 +1,5 @@
+import { toast } from "sonner";
+
 import {
   Card,
   CardHeader,
@@ -5,21 +7,33 @@ import {
   CardDescription,
   CardContent
 } from "@/components/shadcn/card";
-import { Label } from "@/components/shadcn/label";
 import Providers from "./Providers";
 
 import { FONTS } from "@/lib/fonts";
-import { browserClient } from "@/lib/supabase/client";
+import { getServerClient } from "@/lib/supabase/server";
+import { getGoogleOAuthLink } from "@/lib/auth";
 import SignUpForm from "./SignUpForm";
+import { toLogged } from "@/lib/helpers";
 
 export default function SignUp() {
   const createUser = async function (email: string, password: string) {
     "use server";
 
-    const { data, error } = await browserClient().auth.signUp({
+    const res = await getServerClient().auth.signUp({
       email,
-      password
+      password,
+      options: {
+        emailRedirectTo: `/dashboard`
+      }
     });
+
+    return res;
+  };
+
+  const generateGoogleOAuthLink = async function () {
+    "use server";
+
+    return getGoogleOAuthLink();
   };
 
   return (
@@ -36,7 +50,7 @@ export default function SignUp() {
           </CardHeader>
           <CardContent>
             <div id="providers" className="flex gap-4 mb-6 justify-center">
-              <Providers />
+              <Providers getGoogleOAuthLink={generateGoogleOAuthLink} />
             </div>
             <SignUpForm {...{ createUser }} />
           </CardContent>

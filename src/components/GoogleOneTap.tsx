@@ -6,8 +6,6 @@ import { useRouter } from "next/navigation";
 
 import google, { CredentialResponse } from "google-one-tap";
 
-import { getClient } from "@/lib/supabase/server";
-import PUBLIC_VARS from "@/lib/env/publicVars";
 import { createClient } from "@supabase/supabase-js";
 
 const OneTapComponent = () => {

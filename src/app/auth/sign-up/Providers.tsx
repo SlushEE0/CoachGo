@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import { type OAuthResponse } from "@supabase/supabase-js";
 
+import { toast } from "sonner";
 import { Button } from "@/components/shadcn/button";
-import { getGoogleOAuthLink } from "@/lib/supabase/server";
 
 const providers = [
   {
@@ -18,11 +19,17 @@ const providers = [
   }
 ];
 
-export default function Providers() {
+type Props = {
+  getGoogleOAuthLink: () => Promise<OAuthResponse>;
+};
+
+export default function Providers({ getGoogleOAuthLink }: Props) {
   const handleProviderAuth = async function (provider: string) {
     switch (provider) {
       case "google":
         const { data, error } = await getGoogleOAuthLink();
+
+        console.log(data);
 
         if (error) {
           return;
@@ -31,7 +38,12 @@ export default function Providers() {
         window.open(data.url, "_self");
         break;
       case "apple":
-        window.open("/api/auth/signin/apple", "_self");
+        toast.error("Apple Sign In is not yet supported", {
+          style: {
+            background: "var(--destructive)"
+          }
+        });
+        // window.open("/api/auth/signin/apple", "_self");
         break;
       default:
         break;
